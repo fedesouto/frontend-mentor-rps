@@ -1,39 +1,92 @@
-const choices = [
-  {
-    name: "rock",
-    image: "../images/icon-rock.svg",
-  },
-  {
-    name: "paper",
-    image: "../images/icon-paper.svg",
-  },
-  {
-    name: "scissors",
-    image: "../images/icon-scissors.svg",
-  },
-];
+const selectors = document.querySelectorAll(".selection");
+const resultDiv = document.querySelector("#result");
+const gameBoard = document.querySelector("#gameBoard");
+const choices = ["rock", "paper", "scissors"];
 
+
+//Game functions
 const randomize = (length) => {
   const position = Math.floor(Math.random() * length);
   return choices[position];
 };
 
-const playGame = (playerChoice) => {
-  const computerChoice = randomize(choices.length).name;
-  if ((playerChoice === "rock") & (computerChoice === "scissors")) return "win";
+const playGame = (playerChoice, computerChoice) => {
+  if ((playerChoice === "rock") & (computerChoice === "scissors"))
+    return "You Win!";
   else if ((playerChoice === "paper") & (computerChoice === "rock"))
-    return "win";
+    return "You Win!";
   else if ((playerChoice === "scissors") & (computerChoice === "paper"))
-    return "win";
-  else if (playerChoice === computerChoice) return "tie";
-  return "lose";
+    return "You Win!";
+  else if (playerChoice === computerChoice) return "Tie";
+  return "You Lose!";
 };
 
-const selectors = document.querySelectorAll(".selection");
-const result = document.querySelector("#result");
+//Views
+const renderUserSelection = (id) => {
+  const userSelection = document.createElement("div");
+  userSelection.classList.add("selection");
+  userSelection.id = id;
+  userSelection.style.gridArea = "pos1";
+  userSelection.innerText = "";
+  return userSelection;
+};
+//would be better with promises
+const renderComputerSelection = (id) => {
+  const selection = renderUserSelection(id);
+  selection.style.gridArea = "pos2";
+  const choicesForLoop = choices.concat(choices);
+  gameBoard.appendChild(selection);
+  for (let choice in choicesForLoop) {
+    setTimeout(() => {
+      selection.id = choicesForLoop[choice];
+    }, 250 * choice);
+    setTimeout(() => {
+      selection.id = id;
+    }, 251 * choicesForLoop.length);
+  }
+};
+const renderTexts = (content, position) => {
+  const text = document.createElement("div");
+  text.classList.add("mainText");
+  text.innerText = content;
+  text.style.gridArea = position;
+  return text;
+};
+const playAgainButton = () => {
+  const button = document.createElement("button");
+  button.classList.add("playAgain");
+  button.innerText = "Play Again";
+  button.addEventListener("click", () => {
+    location.reload()
+  });
+  return button;
+};
+const renderResults = (result) => {
+  const userText = renderTexts("You Picked", "user");
+  const computerText = renderTexts("The House Picked", "house");
+  const resultText = renderTexts(result, "");
+  gameBoard.appendChild(userText);
+  gameBoard.appendChild(computerText);
+  setTimeout(() => {
+    resultDiv.appendChild(resultText);
+    resultDiv.appendChild(playAgainButton());
+  }, 2000);
+};
+const play = (id) => {
+  const computerChoice = randomize(choices.length);
+  const gameResult = playGame(id, computerChoice);
+  gameBoard.innerHTML = "";
+  gameBoard.appendChild(renderUserSelection(id));
+  renderComputerSelection(computerChoice);
+  renderResults(gameResult);
+};
 selectors.forEach((selector) => {
   selector.addEventListener("click", () => {
-    const gameResult = playGame(selector.id);
-    result.innerHTML = gameResult;
+    const computerChoice = randomize(choices.length);
+    const gameResult = playGame(selector.id, computerChoice);
+    gameBoard.innerHTML = "";
+    gameBoard.appendChild(renderUserSelection(selector.id));
+    renderComputerSelection(computerChoice);
+    renderResults(gameResult);
   });
 });
