@@ -3,14 +3,12 @@ body {
   background-repeat: no-repeat;
   min-height: 100vh;
   color: whitesmoke;
-  font-family: 'Barlow Semi Condensed', sans-serif;
+  font-family: "Barlow Semi Condensed", sans-serif;
+  letter-spacing: 0.15em;
 }
 #gameBoard {
-  background-image: url(./images/bg-triangle.svg);
-  background-size: 60%;
-  background-repeat: no-repeat;
-  background-position: 50%;
   margin: auto;
+  margin-top: 5em;
   display: grid;
   width: 300px;
   height: 250px;
@@ -20,6 +18,19 @@ body {
     "pos1 n pos2"
     "user s house"
     "a pos3 d";
+}
+.initialBoard {
+  background-image: url(./images/bg-triangle.svg);
+  background-size: 60%;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+.mainText {
+  text-transform: uppercase;
+  letter-spacing: normal;
+  font-size: 0.8em;
+  text-align: center;
+  margin-top: 1.2em;
 }
 .selection {
   background: #fff;
@@ -54,7 +65,7 @@ header {
   justify-content: space-between;
   align-items: center;
   margin: 2em;
-  padding: 1em ;
+  padding: 1em;
   border: solid 2px hsl(217, 16%, 45%);
   border-radius: 0.5em;
 }
@@ -83,4 +94,37 @@ header {
 #scoreTitle {
   font-size: 0.75em;
   color: hsl(229, 64%, 46%);
+}
+#result {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+#result .mainText {
+  font-size: 60px;
+  text-transform: uppercase;
+  margin-top: 0;
+}
+#result .playAgain {
+  width: 250px;
+  padding: 1em;
+  text-transform: uppercase;
+  background-color: #fff;
+  border: none;
+  border-radius: 0.5em;
+  color: hsl(229, 25%, 31%);
+  letter-spacing: 0.15em;
+  font-weight: 700;
+  margin-top: 1em;
+}
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.attribution {
+  position: fixed;
+  bottom: 0;
+  
 }

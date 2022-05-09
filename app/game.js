@@ -3,7 +3,6 @@ const resultDiv = document.querySelector("#result");
 const gameBoard = document.querySelector("#gameBoard");
 const choices = ["rock", "paper", "scissors"];
 
-
 //Game functions
 const randomize = (length) => {
   const position = Math.floor(Math.random() * length);
@@ -12,13 +11,13 @@ const randomize = (length) => {
 
 const playGame = (playerChoice, computerChoice) => {
   if ((playerChoice === "rock") & (computerChoice === "scissors"))
-    return "You Win!";
+    return "You Win";
   else if ((playerChoice === "paper") & (computerChoice === "rock"))
-    return "You Win!";
+    return "You Win";
   else if ((playerChoice === "scissors") & (computerChoice === "paper"))
-    return "You Win!";
+    return "You Win";
   else if (playerChoice === computerChoice) return "Tie";
-  return "You Lose!";
+  return "You Lose";
 };
 
 //Views
@@ -57,7 +56,7 @@ const playAgainButton = () => {
   button.classList.add("playAgain");
   button.innerText = "Play Again";
   button.addEventListener("click", () => {
-    location.reload()
+    location.reload();
   });
   return button;
 };
@@ -84,6 +83,7 @@ selectors.forEach((selector) => {
   selector.addEventListener("click", () => {
     const computerChoice = randomize(choices.length);
     const gameResult = playGame(selector.id, computerChoice);
+    gameBoard.classList.remove("initialBoard");
     gameBoard.innerHTML = "";
     gameBoard.appendChild(renderUserSelection(selector.id));
     renderComputerSelection(computerChoice);
