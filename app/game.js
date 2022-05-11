@@ -2,6 +2,7 @@ const selectors = document.querySelectorAll(".selection");
 const resultDiv = document.querySelector("#result");
 const gameBoard = document.querySelector("#gameBoard");
 const choices = ["rock", "paper", "scissors"];
+let score = sessionStorage.getItem("rps-score") || 0;
 
 //Game functions
 const randomize = (length) => {
@@ -9,15 +10,23 @@ const randomize = (length) => {
   return choices[position];
 };
 
+window.addEventListener('load',()=> {
+  document.querySelector('#scoreCounter').innerHTML = score;
+})
 const playGame = (playerChoice, computerChoice) => {
-  if ((playerChoice === "rock") & (computerChoice === "scissors"))
-    return "You Win";
-  else if ((playerChoice === "paper") & (computerChoice === "rock"))
-    return "You Win";
-  else if ((playerChoice === "scissors") & (computerChoice === "paper"))
-    return "You Win";
+  if ((playerChoice === "rock") & (computerChoice === "scissors")){
+    score++;
+    return "You Win";}
+  else if ((playerChoice === "paper") & (computerChoice === "rock")){
+    score++;
+    return "You Win";}
+  else if ((playerChoice === "scissors") & (computerChoice === "paper")){
+    score++;
+    return "You Win";}
   else if (playerChoice === computerChoice) return "Tie";
-  return "You Lose";
+  else {
+    score--;
+    return "You Lose";}
 };
 
 //Views
@@ -88,5 +97,7 @@ selectors.forEach((selector) => {
     gameBoard.appendChild(renderUserSelection(selector.id));
     renderComputerSelection(computerChoice);
     renderResults(gameResult);
+    sessionStorage.setItem("rps-score", score)
+    console.log(score)
   });
 });
